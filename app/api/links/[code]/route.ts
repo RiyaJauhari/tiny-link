@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import db from "@/lib/db";
 
 // GET /api/links/[code]
-export async function GET(
+export const GET = async (
   request: NextRequest,
-  { params }: { params: { code: string } } // params is NOT a Promise
-) {
-  const code = params.code; // no await
+  { params }: { params: Promise<{ code: string }> } // Next 15 requires Promise
+) => {
+  const { code } = await params; // await the Promise
 
   try {
     const result = await db.query(
@@ -23,14 +23,14 @@ export async function GET(
     console.error(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-}
+};
 
 // DELETE /api/links/[code]
-export async function DELETE(
+export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const code = params.code; // no await
+  { params }: { params: Promise<{ code: string }> }
+) => {
+  const { code } = await params;
 
   try {
     const result = await db.query("DELETE FROM links WHERE code=$1", [code]);
@@ -40,4 +40,4 @@ export async function DELETE(
     console.error(err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
-}
+};
