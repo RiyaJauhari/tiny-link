@@ -68,7 +68,7 @@ export default function UrlLists() {
             {urls.length === 0 ? (
                 <p className="text-center text-gray-500">No links created yet.</p>
             ) : (
-                <div className="space-y-4 w-xl items-start">
+                <div className="space-y-4 w-2xl items-start">
                     {urls.map(item => (
                         <div
                             key={item.code}
